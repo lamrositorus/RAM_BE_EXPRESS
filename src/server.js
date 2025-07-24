@@ -29,7 +29,7 @@ app.use(express.json());
 
 // Routes
 app.use('/', authRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/users', usersRoutes);
 app.use('/keuangan', keuanganRoutes);
 app.use('/susut', susutTimbanganRoutes);
 
