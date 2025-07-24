@@ -23,6 +23,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+// Tangani OPTIONS request untuk semua rute
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Routes
