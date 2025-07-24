@@ -11,8 +11,18 @@ const susutTimbanganRoutes = require('./routes/susutTimbanganRoutes');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Konfigurasi CORS
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // Untuk development
+    'https://your-frontend-domain.com' // Untuk production
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
