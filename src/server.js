@@ -18,28 +18,19 @@ const allowedOrigins = [
   'https://ram-fe.vercel.app' // Production - ganti dengan domain frontend Anda
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: true,
-  optionsSuccessStatus: 200 // Untuk browser lama yang bermasalah dengan status 204
-};
 
 // Terapkan CORS middleware
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Tangani khusus preflight requests untuk semua routes
-app.options('*', cors(corsOptions));
+// Handle OPTIONS requests explicitly
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.status(200).send();
+});
 
 // Middleware lainnya
 app.use(express.json());

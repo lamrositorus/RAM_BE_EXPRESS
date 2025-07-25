@@ -3,10 +3,23 @@
   "routes": [
     {
       "src": "/api/.*",
+      "dest": "/api",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "*"
-      },
-      "continue": true
+        "Access-Control-Allow-Origin": "http://localhost:5173 https://ram-fe.vercel.app",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Expose-Headers": "Content-Length, Content-Range"
+      }
     }
-  ]
+  ],
+  "overrides": {
+    "api/auth/signin": {
+      "methods": ["OPTIONS", "POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "http://localhost:5173 https://ram-fe.vercel.app"
+      }
+    }
+  }
 }
