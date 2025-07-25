@@ -28,10 +28,10 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Routes
-app.use('/', authRoutes);
-app.use('/users', usersRoutes);
-app.use('/keuangan', keuanganRoutes);
-app.use('/susut', susutTimbanganRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/keuangan', keuanganRoutes);
+app.use('/api/susut', susutTimbanganRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
