@@ -15,7 +15,7 @@ const app = express();
 // Konfigurasi CORS yang lebih spesifik
 const allowedOrigins = [
   'http://localhost:5173', // Development
-  'https://ram-fe.vercel.app/' // Production - ganti dengan domain frontend Anda
+  'https://ram-fe.vercel.app' // Production - ganti dengan domain frontend Anda
 ];
 
 const corsOptions = {
