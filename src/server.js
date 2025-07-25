@@ -8,34 +8,16 @@ const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const keuanganRoutes = require('./routes/keuanganRoutes');
 const susutTimbanganRoutes = require('./routes/susutTimbanganRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
-// Konfigurasi CORS
-// server.js
-const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      'http://localhost:5173',
-      'https://your-frontend.vercel.app'
-    ];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle semua OPTIONS request
+app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/keuangan', keuanganRoutes);
