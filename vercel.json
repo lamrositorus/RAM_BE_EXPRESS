@@ -23,11 +23,5 @@
       "dest": "/",
       "methods": ["GET"]
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    }
   ]
 }
