@@ -15,6 +15,7 @@ router.post('/', [
   check('sp_ram').isFloat({ min: 0.01 }).withMessage('SP RAM must be positive number')
 ], susutTimbanganController.createSusutTimbangan);
 
+// Simplified GET endpoint without pagination parameters
 router.get('/', susutTimbanganController.getAllSusutTimbangan);
 router.get('/:id', susutTimbanganController.getSusutTimbanganById);
 

@@ -2,49 +2,39 @@ const keuanganModel = require('../models/keuanganModel');
 const { validationResult } = require('express-validator');
 
 module.exports = {
-createKeuangan: async (req, res, next) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+  createKeuangan: async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { tanggal, deskripsi, nominal, tipe } = req.body;
+      
+      const transactionDate = tanggal || new Date().toISOString();
+
+      const newKeuangan = await keuanganModel.createKeuangan({
+        tanggal: transactionDate,
+        deskripsi,
+        nominal,
+        tipe
+      });
+
+      res.status(201).json(newKeuangan);
+    } catch (err) {
+      next(err);
     }
-
-    const { tanggal, deskripsi, nominal, tipe } = req.body;
-    
-    // Jika tanggal tidak dikirim dari FE, gunakan waktu sekarang
-    const transactionDate = tanggal || new Date().toISOString();
-
-    const newKeuangan = await keuanganModel.createKeuangan({
-      tanggal: transactionDate, // akan menggunakan tanggal dari FE atau waktu sekarang
-      deskripsi,
-      nominal,
-      tipe
-    });
-
-    res.status(201).json(newKeuangan);
-  } catch (err) {
-    next(err);
-  }
-},
+  },
 
   getAllKeuangan: async (req, res, next) => {
     try {
-      const { page = 1, limit = 10, tipe } = req.query;
-      const keuangan = await keuanganModel.getAllKeuangan(
-        parseInt(page),
-        parseInt(limit),
-        tipe
-      );
+      const { tipe } = req.query;
       
-      const total = await keuanganModel.getTotalKeuangan(tipe);
+      // Panggil model tanpa parameter pagination
+      const keuangan = await keuanganModel.getAllKeuangan({ tipe });
       
       res.json({
-        data: keuangan,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: parseInt(total)
-        }
+        data: keuangan
       });
     } catch (err) {
       next(err);

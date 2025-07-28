@@ -25,19 +25,16 @@ module.exports = {
     }
   },
 
+  // Modified to remove pagination
   getAllSusutTimbangan: async (req, res, next) => {
     try {
       const { 
-        page = 1, 
-        limit = 10, 
         sortBy = 'tanggal', 
         sortOrder = 'DESC',
         status
       } = req.query;
       
       const data = await susutTimbanganModel.getAllSusutTimbangan(
-        parseInt(page),
-        parseInt(limit),
         sortBy,
         sortOrder,
         status
@@ -47,11 +44,6 @@ module.exports = {
       
       res.json({
         data,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: parseInt(stats.total)
-        },
         stats
       });
     } catch (err) {

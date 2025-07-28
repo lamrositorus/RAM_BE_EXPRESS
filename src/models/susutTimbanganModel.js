@@ -31,17 +31,17 @@ module.exports = {
     await db.query('DELETE FROM susut_timbangan WHERE id = $1', [id]);
   },
 
-  getAllSusutTimbangan: async (page = 1, limit = 10, sortBy = 'tanggal', sortOrder = 'DESC', status = null) => {
-    const offset = (page - 1) * limit;
+  // Modified to remove pagination
+  getAllSusutTimbangan: async (sortBy = 'tanggal', sortOrder = 'DESC', status = null) => {
     let query = 'SELECT * FROM susut_timbangan';
-    let params = [limit, offset];
+    const params = [];
     
     if (status) {
-      query += ' WHERE status = $3';
+      query += ' WHERE status = $1';
       params.push(status);
     }
     
-    query += ` ORDER BY ${sortBy} ${sortOrder} LIMIT $1 OFFSET $2`;
+    query += ` ORDER BY ${sortBy} ${sortOrder}`;
     
     const result = await db.query(query, params);
     return result.rows;
